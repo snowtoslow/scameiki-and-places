@@ -1,0 +1,9 @@
+port: 8087
+
+postgres:
+  host: localhost
+  port: 5432
+  username: postgres
+  password: postgres
+  slmode: disable
+  dbname: skameikiandplaces
