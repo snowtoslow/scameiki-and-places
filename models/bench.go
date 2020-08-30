@@ -3,7 +3,7 @@ package models
 type Bench struct {
 	ID int
 	Geolocation string
-	photoId int
+	Photo []byte
 }
 
 type Benches []Bench

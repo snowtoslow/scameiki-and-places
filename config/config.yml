@@ -5,5 +5,5 @@ postgres:
   port: 5432
   username: postgres
   password: postgres
-  slmode: disable
+  sslmode: disable
   dbname: skameikiandplaces
