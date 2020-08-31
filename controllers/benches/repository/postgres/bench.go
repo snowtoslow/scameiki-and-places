@@ -28,7 +28,7 @@ func (repo BenchRepository) GetBenches(ctx context.Context)([]*models.Bench,erro
 	var bks []*models.Bench
 	for rows.Next() {
 		bk := new(models.Bench)
-		err := rows.Scan(&bk.ID, &bk.Photo, &bk.Geolocation)
+		err := rows.Scan(&bk.ID, &bk.Geolocation,&bk.Photo )
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -80,7 +80,7 @@ func (repo BenchRepository) UpdateBench(ctx context.Context,bench *models.Bench)
 
 	err := repo.db.QueryRow(
 		"UPDATE benches SET geolocation = $2, photo = $3 WHERE id = $1 RETURNING *;",&bench.ID,&bench.Geolocation,&bench.Photo).
-		Scan(&bench.ID,&bench.Photo,&bench.Geolocation)
+		Scan(&bench.ID,&bench.Geolocation,&bench.Photo)
 	if err != nil {
 		return nil, err
 	}

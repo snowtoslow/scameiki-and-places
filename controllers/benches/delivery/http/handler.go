@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"scameiki-and-places/controllers/benches"
 	"scameiki-and-places/models"
@@ -58,11 +59,6 @@ func (handler *Handler) DeleteBench(ctx *gin.Context){
 		return
 	}
 
-/*	if err!=nil {
-		ctx.JSON(http.StatusInternalServerError,err)
-		return
-	}
-*/
 	ctx.JSON(http.StatusNoContent,handler.useCase.DeleteBench(ctx.Request.Context(),id))
 }
 
@@ -105,6 +101,8 @@ func (handler *Handler) UpdateBench(ctx *gin.Context){
 
 	updatedBench,err := handler.useCase.UpdateBench(ctx.Request.Context(),&myBench)
 
+	log.Println("PHOTO:",string(myBench.Photo))
+	log.Println("GEOLOCATION:",myBench.Geolocation)
 	if err!=nil {
 		ctx.JSON(http.StatusInternalServerError,gin.H{"message":"failed","error":err.Error()})
 		return
