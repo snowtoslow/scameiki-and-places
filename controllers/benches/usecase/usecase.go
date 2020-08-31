@@ -26,4 +26,8 @@ func (b BenchUseCase) GetBenchById(ctx context.Context,id int) (*models.Bench, e
 	return b.benchRepository.GetBenchById(ctx,id)
 }
 
+func (b BenchUseCase) DeleteBench(ctx context.Context,id int) error {
+	return b.benchRepository.DeleteBench(ctx,id)
+}
+
 

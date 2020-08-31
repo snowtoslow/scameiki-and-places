@@ -17,23 +17,6 @@ func NewBenchRepository(db *sql.DB) *BenchRepository{
 	}
 }
 
-
-func (repo BenchRepository) GetBenchById(ctx context.Context,id int)(*models.Bench,error){
-		bench:= &models.Bench{}
-		if err := repo.db.QueryRow(
-			"SELECT id, geolocation, photo FROM benches WHERE id = $1", id).
-			Scan(
-				&bench.ID,
-				&bench.Geolocation,
-				&bench.Photo);
-			err != nil {
-			if err == sql.ErrNoRows {
-				return nil, err
-			}
-		}
-		return bench, nil
-}
-
 func (repo BenchRepository) GetBenches(ctx context.Context)([]*models.Bench,error){
 
 	rows, err := repo.db.Query("SELECT * FROM benches")
@@ -58,4 +41,29 @@ func (repo BenchRepository) GetBenches(ctx context.Context)([]*models.Bench,erro
 
 	return benches, err
 
+}
+
+func (repo BenchRepository) GetBenchById(ctx context.Context,id int)(*models.Bench,error){
+	bench:= &models.Bench{}
+	if err := repo.db.QueryRow(
+		"SELECT id, geolocation, photo FROM benches WHERE id = $1", id).
+		Scan(
+			&bench.ID,
+			&bench.Geolocation,
+			&bench.Photo);
+		err != nil {
+		if err == sql.ErrNoRows {
+			return nil, err
+		}
+	}
+	return bench, nil
+}
+
+func (repo BenchRepository) DeleteBench(ctx context.Context,id int)error{
+
+	if _,err := repo.db.Exec("DELETE FROM benches WHERE id=$1;", id);err!=nil{
+		return err
+	}
+
+	return nil
 }
