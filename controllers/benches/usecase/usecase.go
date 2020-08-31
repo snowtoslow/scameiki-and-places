@@ -30,4 +30,8 @@ func (b BenchUseCase) DeleteBench(ctx context.Context,id int) error {
 	return b.benchRepository.DeleteBench(ctx,id)
 }
 
+func (b BenchUseCase) CreateBench(ctx context.Context,bench *models.Bench) (*models.Bench, error) {
+	return b.benchRepository.CreateBench(ctx,bench)
+}
+
 

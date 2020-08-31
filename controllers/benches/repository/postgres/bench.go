@@ -67,3 +67,11 @@ func (repo BenchRepository) DeleteBench(ctx context.Context,id int)error{
 
 	return nil
 }
+
+func (repo BenchRepository) CreateBench(ctx context.Context,bench *models.Bench)(*models.Bench,error){
+	err := repo.db.QueryRow("INSERT INTO benches(geolocation,photo) VALUES ($1, $2) RETURNING id",bench.Geolocation,bench.Photo).Scan(&bench.ID)
+	if err!=nil {
+		return nil, err
+	}
+	return bench,nil
+}

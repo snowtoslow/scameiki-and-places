@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"scameiki-and-places/controllers/benches"
+	"scameiki-and-places/models"
 	"strconv"
 )
 
@@ -55,14 +56,30 @@ func (handler *Handler) GetBenchById(ctx *gin.Context){
 func (handler *Handler) DeleteBench(ctx *gin.Context){
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err!=nil {
-		ctx.AbortWithStatus(http.StatusInternalServerError)
-		log.Println("HERE",err)
+		ctx.AbortWithError(http.StatusInternalServerError,err)
 	}
 
 	if err!=nil {
-		ctx.AbortWithStatus(http.StatusInternalServerError)
+		ctx.AbortWithError(http.StatusInternalServerError,err)
 		return
 	}
 
 	ctx.JSON(http.StatusNoContent,handler.useCase.DeleteBench(ctx.Request.Context(),id))
+}
+
+func (handler *Handler) CreateBench(ctx *gin.Context){
+
+	myBench:= models.Bench{}
+
+	if err := ctx.Bind(&myBench);err!=nil{
+		log.Println("1.",err)
+	}
+
+	createdBench,err:= handler.useCase.CreateBench(ctx.Request.Context(),&myBench)
+	if err!=nil {
+		log.Println("2.",err)
+	}
+
+	ctx.JSON(http.StatusOK,&createdBench)
+
 }
