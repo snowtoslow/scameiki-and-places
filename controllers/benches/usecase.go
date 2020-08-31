@@ -6,5 +6,5 @@ import (
 )
 
 type UseCase interface {
-	GetBenches(ctx context.Context) (*models.Benches,error)
+	GetBenches(ctx context.Context) ([]*models.Bench,error)
 }

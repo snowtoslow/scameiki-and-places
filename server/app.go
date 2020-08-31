@@ -12,8 +12,9 @@ import (
 	"os"
 	"os/signal"
 	"scameiki-and-places/controllers/benches"
-	bcuusecase "scameiki-and-places/controllers/benches/usecase"
+	bmhttp "scameiki-and-places/controllers/benches/delivery/http"
 	bmpostgres "scameiki-and-places/controllers/benches/repository/postgres"
+	bcuusecase "scameiki-and-places/controllers/benches/usecase"
 	"time"
 )
 
@@ -54,6 +55,10 @@ func (a *App) Run(port string) error{
 		gin.Recovery(),
 		gin.Logger(),
 	)
+
+	api := router.Group("/api")
+
+	bmhttp.RegisterHttpEndPoints(api, a.benchUC)
 
 	a.httpServer = &http.Server{
 		Addr: ":"+port,

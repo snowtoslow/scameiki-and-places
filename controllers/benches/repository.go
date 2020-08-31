@@ -10,6 +10,6 @@ type BenchRepository interface {
 	DeleteBench(ctx context.Context, id int) error
 	GetBenchById(ctx context.Context,id int) (*models.Bench,error)
 	UpdateBench(ctx context.Context,id int) (*models.Bench,error)*/
-	GetBenches(ctx context.Context) (*models.Benches,error)
+	GetBenches(ctx context.Context) ([]*models.Bench,error)
 
 }

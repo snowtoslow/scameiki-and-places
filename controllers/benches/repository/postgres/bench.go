@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"log"
 	"scameiki-and-places/models"
 )
 
@@ -41,15 +42,28 @@ func (repo BenchRepository) FindBenchById(id int)(*models.Bench,error){
 		return bench, nil
 }*/
 
-func (repo BenchRepository) GetBenches(ctx context.Context)(*models.Benches,error){
-	benches:= &models.Benches{}
-	if err := repo.db.QueryRowContext(ctx,
-		"SELECT * FROM benches ").
-		Scan(&benches);
-		err != nil {
-		if err == sql.ErrNoRows {
-			return nil, err
-		}
+func (repo BenchRepository) GetBenches(ctx context.Context)([]*models.Bench,error){
+
+	rows, err := repo.db.Query("SELECT * FROM benches")
+	if err != nil {
+		log.Fatal(err)
 	}
-	return benches, nil
+	defer rows.Close()
+
+	var bks []*models.Bench
+	for rows.Next() {
+		bk := new(models.Bench)
+		err := rows.Scan(&bk.ID, &bk.Photo, &bk.Geolocation)
+		if err != nil {
+			log.Fatal(err)
+		}
+		bks = append(bks, bk)
+	}
+	if err = rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	 benches := bks
+
+	return benches, err
+
 }

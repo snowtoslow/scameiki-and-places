@@ -6,4 +6,3 @@ type Bench struct {
 	Photo []byte
 }
 
-type Benches []Bench
