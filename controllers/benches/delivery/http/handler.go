@@ -58,11 +58,11 @@ func (handler *Handler) DeleteBench(ctx *gin.Context){
 		return
 	}
 
-	if err!=nil {
+/*	if err!=nil {
 		ctx.JSON(http.StatusInternalServerError,err)
 		return
 	}
-
+*/
 	ctx.JSON(http.StatusNoContent,handler.useCase.DeleteBench(ctx.Request.Context(),id))
 }
 
@@ -81,6 +81,34 @@ func (handler *Handler) CreateBench(ctx *gin.Context){
 		return
 	}
 
-	ctx.JSON(http.StatusOK,&createdBench)
+	ctx.JSON(http.StatusCreated,&createdBench)
 
+}
+
+func (handler *Handler) UpdateBench(ctx *gin.Context){
+	id, err := strconv.Atoi(ctx.Param("id"))
+
+	if err!=nil {
+		ctx.JSON(http.StatusBadRequest,gin.H{"message":"failed","error":benches.ErrInvalidId})
+		return
+	}
+
+	myBench:= models.Bench{
+		ID: id,
+	}
+
+
+	if err := ctx.Bind(&myBench);err!=nil{
+		ctx.JSON(http.StatusInternalServerError,gin.H{"status":"failed","error":err.Error()})
+		return
+	}
+
+	updatedBench,err := handler.useCase.UpdateBench(ctx.Request.Context(),&myBench)
+
+	if err!=nil {
+		ctx.JSON(http.StatusInternalServerError,gin.H{"message":"failed","error":err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusNoContent,&updatedBench)
 }

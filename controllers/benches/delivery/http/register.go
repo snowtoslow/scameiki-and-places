@@ -14,5 +14,6 @@ func RegisterHttpEndPoints(router *gin.RouterGroup, useCase benches.UseCase){
 		benchRouter.GET("/:id",h.GetBenchById)
 		benchRouter.DELETE("/:id",h.DeleteBench)
 		benchRouter.POST("",h.CreateBench)
+		benchRouter.PUT("/:id",h.UpdateBench)
 	}
 }

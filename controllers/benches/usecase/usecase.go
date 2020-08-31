@@ -34,4 +34,8 @@ func (b BenchUseCase) CreateBench(ctx context.Context,bench *models.Bench) (*mod
 	return b.benchRepository.CreateBench(ctx,bench)
 }
 
+func (b BenchUseCase) UpdateBench(ctx context.Context,bench *models.Bench) (*models.Bench, error) {
+	return b.benchRepository.UpdateBench(ctx,bench)
+}
+
 

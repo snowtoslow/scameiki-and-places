@@ -75,3 +75,16 @@ func (repo BenchRepository) CreateBench(ctx context.Context,bench *models.Bench)
 	}
 	return bench,nil
 }
+
+func (repo BenchRepository) UpdateBench(ctx context.Context,bench *models.Bench)(*models.Bench,error){
+
+	err := repo.db.QueryRow(
+		"UPDATE benches SET geolocation = $2, photo = $3 WHERE id = $1 RETURNING *;",&bench.ID,&bench.Geolocation,&bench.Photo).
+		Scan(&bench.ID,&bench.Photo,&bench.Geolocation)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+
+}
