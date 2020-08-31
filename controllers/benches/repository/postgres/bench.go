@@ -17,16 +17,8 @@ func NewBenchRepository(db *sql.DB) *BenchRepository{
 	}
 }
 
-/*func (repo BenchRepository) CreateBench(bench *models.Bench) error{
-	return repo.db.QueryRow(
-		"INSERT INTO benches (geolocation, photo,) VALUES ($1, $2) RETURNING id",
-		bench.Geolocation,
-		bench.Photo,
-	).Scan(&bench.ID)
-}
 
-
-func (repo BenchRepository) FindBenchById(id int)(*models.Bench,error){
+func (repo BenchRepository) GetBenchById(ctx context.Context,id int)(*models.Bench,error){
 		bench:= &models.Bench{}
 		if err := repo.db.QueryRow(
 			"SELECT id, geolocation, photo FROM benches WHERE id = $1", id).
@@ -40,7 +32,7 @@ func (repo BenchRepository) FindBenchById(id int)(*models.Bench,error){
 			}
 		}
 		return bench, nil
-}*/
+}
 
 func (repo BenchRepository) GetBenches(ctx context.Context)([]*models.Bench,error){
 

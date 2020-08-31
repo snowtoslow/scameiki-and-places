@@ -22,4 +22,8 @@ func (b BenchUseCase) GetBenches(ctx context.Context) ([]*models.Bench, error) {
 	return b.benchRepository.GetBenches(ctx)
 }
 
+func (b BenchUseCase) GetBenchById(ctx context.Context,id int) (*models.Bench, error) {
+	return b.benchRepository.GetBenchById(ctx,id)
+}
+
 

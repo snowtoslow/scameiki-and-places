@@ -8,8 +8,9 @@ import (
 func RegisterHttpEndPoints(router *gin.RouterGroup, useCase benches.UseCase){
 	h:= NewHandler(useCase)
 
-	bechRouter := router.Group("/bench")
+	benchRouter := router.Group("/bench")
 	{
-		bechRouter.GET("",h.GetAll)
+		benchRouter.GET("",h.GetAll)
+		benchRouter.GET("/:id",h.GetBenchById)
 	}
 }

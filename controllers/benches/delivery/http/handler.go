@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"scameiki-and-places/controllers/benches"
+	"strconv"
 )
 
 type Bench struct {
@@ -34,4 +35,19 @@ func (handler *Handler) GetAll(ctx *gin.Context){
 	}
 	defer log.Println(handler.useCase.GetBenches(ctx.Request.Context()))
 	ctx.JSON(http.StatusOK,myBenches)
+}
+
+func (handler *Handler) GetBenchById(ctx *gin.Context){
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err!=nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+		log.Println(err)
+	}
+	myBench, err := handler.useCase.GetBenchById(ctx.Request.Context(),id)
+	if err!=nil {
+		ctx.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+
+	ctx.JSON(http.StatusOK,myBench)
 }
