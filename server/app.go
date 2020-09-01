@@ -37,7 +37,7 @@ func NewApp() *App{
 	db, err := initDB(dbUrl)
 
 	if err!=nil {
-		log.Fatalf("Database connection error: %s",err.Error())
+		panic(err.Error())
 	}
 
 	fmt.Println("DATABASE SUCESSFULY CONECTED!",db)
